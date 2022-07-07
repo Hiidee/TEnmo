@@ -25,6 +25,4 @@ public class AccountController {
         return accountDao.findByUserID(userid);
     }
 
-    @RequestMapping(value = "/account/{accountid}", method = RequestMethod.GET)
-    public Account getBalance
 }
