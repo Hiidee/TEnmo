@@ -3,8 +3,9 @@ package com.techelevator.tenmo.model;
 import java.math.BigDecimal;
 
 public class Account {
-    private long accountID;
-    private long userID;
+
+    private Long accountID;
+    private Long userID;
     private BigDecimal balance;
 
     public Account() {
@@ -44,8 +45,8 @@ public class Account {
     @Override
     public String toString() {
         return "Account{" +
-                "account_id: '" + accountID +
-                ", user_id: " + userID + '\'' +
+                "account_id: " + accountID +
+                ", user_id: " + userID +
                 ", balance: " + balance +
                 '}';
     }
