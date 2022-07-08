@@ -1,10 +1,10 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +29,25 @@ public class JdbcAccountDao implements AccountDao {
     @Override
     public Account findByUserID(int user_id) {
         Account account = null;
-        String sql = "SELECT account_id, user_id, balance FROM account" +
+        String sql = "SELECT account_id, user_id, balance FROM account " +
                 "WHERE user_id = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, user_id);
         if (result.next()) {
             account = mapRowToAccount(result);
         }
         return account;
+    }
+
+    @Override
+    public Account getBalance(int user_id) { // Should we pass in the user id or account id?
+        Account accountBalance = null;
+        String sql = "SELECT account_id, user_id, balance FROM account " +
+                "WHERE user_id = ?;";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, user_id);
+        if (result.next()) {
+            accountBalance = mapRowToAccount(result);
+        }
+        return accountBalance;
     }
 
     private Account mapRowToAccount(SqlRowSet rs) {

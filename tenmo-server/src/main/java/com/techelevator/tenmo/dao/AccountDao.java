@@ -8,4 +8,6 @@ public interface AccountDao {
     List<Account> getAllAccounts();
 
     Account findByUserID(int id);
+
+    Account getBalance(int user_id);
 }
