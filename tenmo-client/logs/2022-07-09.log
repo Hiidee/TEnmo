@@ -1,0 +1,7 @@
+2022-07-09T01:12:25.6483514 401 : [no body]
+2022-07-09T02:35:50.23489 401 : [no body]
+2022-07-09T02:37:12.1497204 I/O error on POST request for "http://localhost:8080/login": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2022-07-09T02:37:44.1603444 I/O error on POST request for "http://localhost:8080/login": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2022-07-09T13:07:46.2506221 I/O error on POST request for "http://localhost:8080/register": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2022-07-09T13:08:02.4584367 I/O error on POST request for "http://localhost:8080/login": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2022-07-09T13:08:33.6435215 I/O error on POST request for "http://localhost:8080/login": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect

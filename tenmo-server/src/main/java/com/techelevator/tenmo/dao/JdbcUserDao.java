@@ -23,13 +23,14 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public int findIdByUsername(String username) {
+    public Long findIdByUsername(String username) {
+        Long num = Long.valueOf(-1);
         String sql = "SELECT user_id FROM tenmo_user WHERE username ILIKE ?;";
-        Integer id = jdbcTemplate.queryForObject(sql, Integer.class, username);
+        Long id = jdbcTemplate.queryForObject(sql, Long.class, username);
         if (id != null) {
             return id;
         } else {
-            return -1;
+            return num;
         }
     }
 
