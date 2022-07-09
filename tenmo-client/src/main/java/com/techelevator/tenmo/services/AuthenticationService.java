@@ -49,16 +49,6 @@ public class AuthenticationService {
         return success;
     }
 
-//    public BigDecimal viewBalance(UserCredentials credentials) {
-//        HttpEntity<UserCredentials> entity = createCredentialsEntity(credentials);
-//        BigDecimal balance = new BigDecimal("0");
-//        try {
-//            restTemplate.exchange(baseUrl + "", HttpMethod.GET, entity, BigDecimal.class);
-//        } catch (RestClientResponseException | ResourceAccessException e) {
-//            BasicLogger.log(e.getMessage());
-//        }
-//    }
-
     private HttpEntity<UserCredentials> createCredentialsEntity(UserCredentials credentials) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

@@ -25,4 +25,9 @@ public class AccountController {
         return accountDao.findByUserID(userid);
     }
 
+    @RequestMapping(value = "/account/{userid}", method = RequestMethod.PUT)
+    public Account sendBucks(@Valid @PathVariable Long userid) {
+        return null;
+    }
+
 }
