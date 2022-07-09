@@ -96,18 +96,16 @@ public class App {
             System.out.println("No balance was found.");
         }
         System.out.println("Your current balance is: ");
-	}
+    }
 
 	private void viewTransferHistory() {
-        System.out.println();
         System.out.println("--------------------------------");
         System.out.println("Transfers");
         System.out.println("ID         From/To        Amount");
         System.out.println("--------------------------------");
-        System.out.println("this will just be grabbing the id, transfer type, and amount out of the api/db. probably not a system out string");
+
         System.out.println("--------------------------------");
         consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ");
-        System.out.println();
     }
 
 	private void viewPendingRequests() {
