@@ -5,6 +5,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -24,10 +25,10 @@ public class AccountService {
         BigDecimal balance = new BigDecimal(0);
         try {
             // The URL path below might not be right
-            balance = restTemplate.exchange(baseUrl + "account/balance/" + currentUser.getUser().getId(), HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
+            balance = restTemplate.exchange(baseUrl + "account/balance", HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
             System.out.println("Your current account balance is: $" + balance);
-        } catch (RestClientException e) {
-            System.out.println("There was an error getting the balance.");
+        } catch (RestClientResponseException e) {
+            System.out.println(e.getRawStatusCode() + e.getStatusText());
         }
         return balance;
     }

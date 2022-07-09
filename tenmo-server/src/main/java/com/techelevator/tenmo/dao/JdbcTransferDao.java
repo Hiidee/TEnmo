@@ -1,11 +1,13 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Transfer;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class JdbcTransferDao implements TransferDao {
     @Override
     public Transfer getTransferDetailsByTransferId(long transferID) {

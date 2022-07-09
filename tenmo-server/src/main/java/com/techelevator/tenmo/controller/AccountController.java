@@ -21,6 +21,11 @@ public class AccountController {
     private AccountDao accountDao;
     private UserDao userDao;
 
+    public AccountController(AccountDao accountDao, UserDao userDao) {
+        this.accountDao = accountDao;
+        this.userDao = userDao;
+    }
+
     @RequestMapping(value = "/account", method = RequestMethod.GET)
     public List<Account> getAllAccounts() {
         return accountDao.getAllAccounts();
@@ -35,7 +40,7 @@ public class AccountController {
     public BigDecimal getBalance(Principal principal) {
         String username = principal.getName();
         Long userId = (userDao.findIdByUsername(username)); // It's not finding a userId for the username I provided (but the userId exists in Postgres)
-        return accountDao.getBalance(userId) ;
+        return accountDao.getBalance(userId);
     }
 
     @RequestMapping(value = "/account/{userid}", method = RequestMethod.PUT)
