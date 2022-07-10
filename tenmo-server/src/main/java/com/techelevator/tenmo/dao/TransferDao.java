@@ -16,7 +16,7 @@ public interface TransferDao {
 
     Transfer getTransferDetailsByTransferId(long transferID);
 
-    List<Transfer> viewAllTransfersById(long userID); // This is a user's transfer history - what parameters should be passed in here?
+    List<Transfer> viewTransferHistory(long userID); // This is a user's transfer history - what parameters should be passed in here?
 
     Transfer updateSender(long userID, long transferTypeID, BigDecimal amount); // Can I include userID here since it's from a different table?
 

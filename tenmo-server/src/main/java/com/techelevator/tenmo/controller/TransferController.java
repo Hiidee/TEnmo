@@ -15,11 +15,15 @@ public class TransferController {
 
     private TransferDao transferDao;
 
-//    @RequestMapping(value = "/transfers", method = RequestMethod.GET)
-//    public List<Transfer> getTransferHistory() {return transferDao.getTransferHistory();}
+    public TransferController(TransferDao transferDao) {
+        this.transferDao = transferDao;
+    }
+
+    //@RequestMapping(value = "/transfers", method = RequestMethod.GET)
+//    public List<Transfer> viewTransferHistory() {return transferDao.getTransferHistory();}
 //
 //    @RequestMapping(value = "/transfers/{transferid}", method = RequestMethod.GET)
-//    public Transfer getTransferDetails(@Valid @PathVariable Long transferid) {
+//    public Transfer getTransferDetailsByTransferId(@Valid @PathVariable Long transferid) {
 //        return transferDao.getTransferDetails(transferid);
 //    }
 }

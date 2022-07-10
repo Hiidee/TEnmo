@@ -36,10 +36,10 @@ public class AccountController {
         return accountDao.findByUserID(userid);
     }
 
-    @RequestMapping(value = "/account/balance", method = RequestMethod.GET) // For security reasons, don't use {id) or a @PathVariable
+    @RequestMapping(value = "/account/balance", method = RequestMethod.GET) // For security reasons, don't use {id} or a @PathVariable
     public BigDecimal getBalance(Principal principal) {
         String username = principal.getName();
-        Long userId = (userDao.findIdByUsername(username)); // It's not finding a userId for the username I provided (but the userId exists in Postgres)
+        Long userId = (userDao.findIdByUsername(username));
         return accountDao.getBalance(userId);
     }
 

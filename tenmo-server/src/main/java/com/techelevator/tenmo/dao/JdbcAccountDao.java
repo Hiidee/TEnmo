@@ -61,6 +61,7 @@ public class JdbcAccountDao implements AccountDao {
         } catch (DataAccessException e) {
             System.out.println("There was an error accessing your data.");
         }
+        //return newBalance;
         return account.getBalance();
     }
 
@@ -75,14 +76,15 @@ public class JdbcAccountDao implements AccountDao {
         } catch (DataAccessException e) {
             System.out.println("There was an error accessing your data.");
         }
+        //return newBalance;
         return account.getBalance();
     }
 
-    private Account mapRowToAccount(SqlRowSet rs) {
+    private Account mapRowToAccount(SqlRowSet rowSet) {
         Account account = new Account();
-        account.setAccountID(rs.getLong("account_id"));
-        account.setUserID(rs.getLong("user_id"));
-        account.setBalance(rs.getBigDecimal("balance"));
+        account.setAccountID(rowSet.getLong("account_id"));
+        account.setUserID(rowSet.getLong("user_id"));
+        account.setBalance(rowSet.getBigDecimal("balance"));
         return account;
     }
 }
