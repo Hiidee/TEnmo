@@ -30,9 +30,9 @@ public class TransferController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value = "/transfer", method = RequestMethod.PUT)
+    @RequestMapping(value = "/transfer", method = RequestMethod.POST)
     public boolean createTransfer(@Valid @RequestBody Transfer transfer, Principal principal) {
-        Long userIDOfSender = userDao.findIdByUsername(principal.getName());
-        return transferDao.createTransfer(userIDOfSender, transfer);
+        Long currentUser = userDao.findIdByUsername(principal.getName());
+        return transferDao.createTransfer(currentUser, transfer);
     }
 }

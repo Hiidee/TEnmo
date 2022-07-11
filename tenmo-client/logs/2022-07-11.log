@@ -1,0 +1,2 @@
+2022-07-11T10:16:55.2031662 401 : [no body]
+2022-07-11T10:17:05.708501 400 : [{"timestamp":"2022-07-11T14:17:05.692+00:00","status":400,"error":"Bad Request","message":"Validation failed for object='registerUserDTO'. Error count: 2","errors":[{"codes":["NotEmpty.registerUserDTO... (947 bytes)]

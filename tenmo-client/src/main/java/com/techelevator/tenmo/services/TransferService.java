@@ -33,16 +33,18 @@ public class TransferService {
         Transfer transfer = new Transfer(userID, transferAmount);
         HttpEntity<Transfer> transferEntity = makeTransferEntity(transfer);
         try {
-            restTemplate.exchange(baseUrl + "transfer", HttpMethod.PUT, transferEntity, Boolean.class);
+            restTemplate.exchange(baseUrl + "transfer", HttpMethod.POST, transferEntity, Boolean.class);
             wasSuccessful = true;
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
-//        transfer.setTransferTypeID(2);
-//        transfer.setTransferStatusID(2);
-//        transfer.setAccountTo();
-//        transfer.setAccountFrom();
-//        transfer.setAmount(transferAmount);
+        /*
+        transfer.setTransferTypeID(2);
+        transfer.setTransferStatusID(2);
+        transfer.setAccountTo();
+        transfer.setAccountFrom();
+        transfer.setAmount(transferAmount);
+         */
         return wasSuccessful;
     }
 
@@ -74,9 +76,11 @@ public class TransferService {
         return new HttpEntity<>(transfer, headers);
     }
 
-//    private int userIDToAccountID(int userID) {
-//        HttpHeaders headers = new HttpHeaders();
-//    }
+    /*
+    private int userIDToAccountID(int userID) {
+        HttpHeaders headers = new HttpHeaders();
+    }
+     */
 }
 
 /*
