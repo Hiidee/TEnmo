@@ -31,7 +31,6 @@ public class AccountService {
         }
         return balance;
     }
-    // Should the path include "+currentUser.getUser().getId() after account/balance?
 
     private HttpEntity makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();

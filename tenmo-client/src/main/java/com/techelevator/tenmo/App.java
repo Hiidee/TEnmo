@@ -123,8 +123,7 @@ public class App {
 	private void sendBucks() {
         transferService.listAllUsers();
         int userID = consoleService.promptForInt("Enter the id of the user to send to: ");
-        String strAmount = consoleService.promptForString("Enter the amount to send: ");
-        double transferAmount = Double.parseDouble(strAmount);
+        BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter the amount to send: ");
         BigDecimal currentBalanceAmount = accountService.getBalance(currentUser);
         transferService.sendBucks(userID, transferAmount, currentBalanceAmount);
 	}

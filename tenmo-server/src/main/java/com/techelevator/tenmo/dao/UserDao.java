@@ -8,6 +8,8 @@ public interface UserDao {
 
     List<User> findAll();
 
+    List<User> findAllNotMe(String username);
+
     User findByUsername(String username);
 
     Long findIdByUsername(String username);

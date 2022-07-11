@@ -11,11 +11,12 @@ public class Transfer {
     private Double amount;
     private Long userID;
     private String username;
+    private Long accountID;
 
     public Transfer() {
     }
 
-    public Transfer(Long transferID, Long transferTypeID, Long transferStatusID, Long accountFrom, Long accountTo, Double amount, Long userID, String username) {
+    public Transfer(Long transferID, Long transferTypeID, Long transferStatusID, Long accountFrom, Long accountTo, Double amount, Long userID, String username, Long accountID) {
         this.transferID = transferID;
         this.transferTypeID = transferTypeID;
         this.transferStatusID = transferStatusID;
@@ -24,6 +25,7 @@ public class Transfer {
         this.amount = amount;
         this.userID = userID;
         this.username = username;
+        this.accountID = accountID;
     }
 
     public Long getTransferID() {
@@ -79,6 +81,12 @@ public class Transfer {
     public String getUsername() { return username; }
 
     public void setUsername(String username) { this.username = username; }
+
+    public Long getAccountID() { return accountID; }
+
+    public void setAccountID(Long accountID) {
+        this.accountID = accountID;
+    }
 
     @Override
     public String toString() {
