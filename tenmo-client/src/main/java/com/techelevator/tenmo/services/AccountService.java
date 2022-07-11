@@ -24,13 +24,14 @@ public class AccountService {
     public BigDecimal getBalance(AuthenticatedUser currentUser) {
         BigDecimal balance = new BigDecimal(0);
         try {
-            balance = restTemplate.exchange(baseUrl + "account/balance/", HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
+            balance = restTemplate.exchange(baseUrl + "account/balance", HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
             System.out.println("Your current account balance is: $" + balance);
         } catch (RestClientResponseException e) {
             System.out.println(e.getRawStatusCode() + e.getStatusText());
         }
         return balance;
     }
+    // Should the path include "+currentUser.getUser().getId() after account/balance?
 
     private HttpEntity makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();

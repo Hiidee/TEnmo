@@ -34,11 +34,11 @@ public class AccountController {
         return accountDao.findByUserID(userid);
     }
 
-    @RequestMapping(value = "/account/balance", method = RequestMethod.GET) // For security reasons, don't use {id) or a @PathVariable
+    @RequestMapping(value = "/account/balance", method = RequestMethod.GET) // For security reasons, don't use {id} or a @PathVariable
     public BigDecimal getBalance(Principal principal) {
         String username = principal.getName();
         Long userId = (userDao.findIdByUsername(username));
-        return accountDao.getBalance(userId) ;
+        return accountDao.getBalance(userId);
     }
 
     @RequestMapping(value = "/account/{userid}", method = RequestMethod.PUT)

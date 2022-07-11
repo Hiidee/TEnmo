@@ -89,4 +89,6 @@ public class JdbcUserDao implements UserDao {
         user.setAuthorities("USER");
         return user;
     }
+
+    // Make a new map to return a list (for the purpose of displaying users to send money to)
 }

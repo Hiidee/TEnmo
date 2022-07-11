@@ -16,10 +16,14 @@ public class TransferService {
     private final String baseUrl;
     private final RestTemplate restTemplate = new RestTemplate();
     private final AuthenticatedUser currentUser;
+    private long accountTo;
+    private BigDecimal amount;
 
-    public TransferService(String url, AuthenticatedUser currentUser) {
+    public TransferService(String url, AuthenticatedUser currentUser, Long accountTo, BigDecimal amount) {
         this.baseUrl = url;
         this.currentUser = currentUser;
+        this.accountTo = accountTo;
+        this.amount = amount;
     }
 
     public void sendBucks(int userID, double transferAmount, BigDecimal currentBalanceAmount) {

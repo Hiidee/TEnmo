@@ -11,7 +11,7 @@ public interface TransferDao {
 
     Transfer getTransferDetails(long transferID);
 
-    List<Transfer> getTransferHistory();
+    List<Transfer> viewTransferHistory(long userID);
 
 }
 

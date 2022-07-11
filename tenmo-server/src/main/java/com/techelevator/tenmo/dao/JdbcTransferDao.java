@@ -45,7 +45,36 @@ public class JdbcTransferDao implements TransferDao {
             System.out.println(e.getMessage());
         }
         return true;
+    private JdbcTemplate jdbcTemplate;
+
+    public JdbcTransferDao(JdbcTemplate jdbcTemplate){
+        this.jdbcTemplate = jdbcTemplate;
     }
+
+    @Override
+    public Transfer getTransferDetailsByTransferId(long transfer_id) {
+        Transfer transfer = null;
+        String sql = "SELECT * from transfer WHERE transfer_id = ?;";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, transfer_id);
+        if (result.next()) {
+            transfer = mapRowToTransfer(result);
+        }
+        return transfer;
+    }
+
+    @Override
+    public List<Transfer> viewTransferHistory(long user_id) {
+        List<Transfer> transfers = new ArrayList<>();
+        String sql = "SELECT * FROM transfer WHERE user_id = ?;";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, user_id);
+        while (result.next()) {
+            transfers.add(mapRowToTransfer(result));
+        }
+        return transfers;
+    }
+
+    // Add a transaction to the database
+
 
     @Override
     public Transfer getTransferDetails(long transferID) {
