@@ -29,7 +29,7 @@ public class AccountController {
         return accountDao.getAllAccounts();
     }
 
-    @RequestMapping(value = "/account", method = RequestMethod.GET) //use this to get the account_id of a given user based on the send recipient and current user id's
+    @RequestMapping(value = "/account/id", method = RequestMethod.GET) //use this to get the account_id of a given user based on the send recipient and current user id's
     public Account getAccountByUserID(@Valid @PathVariable int userid) {
         return accountDao.findByUserID(userid);
     }
@@ -50,5 +50,13 @@ public class AccountController {
     public List<User> getAllUsers() {
         return userDao.findAll();
     }
+
+    /*
+        @RequestMapping(value = "/users", method = RequestMethod.GET)
+        public List<User> getAllUsersNotMe(@Valid Principal principalUser) {
+        Long userid = userDao.findIdByUsername(principalUser.getName());
+            return userDao.findAllNotMe(principalUser.getName());
+        }
+     */
 
 }

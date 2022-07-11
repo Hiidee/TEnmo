@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface TransferDao {
 
-    boolean createTransfer(Transfer transfer);
+    boolean createTransfer(Long userIDOfSender, Transfer transfer);
 
     Transfer getTransferDetails(long transferID);
 
-    List<Transfer> viewTransferHistory(long userID);
+    List<Transfer> getTransferHistory(long userID);
 
 }
 

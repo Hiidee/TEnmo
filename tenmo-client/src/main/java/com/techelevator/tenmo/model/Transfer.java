@@ -9,7 +9,14 @@ public class Transfer {
     private int transferStatusID;
     private int accountFrom;
     private int accountTo;
-    private double amount;
+    private BigDecimal amount;
+    private int userID;
+    private String username;
+
+    public Transfer(int userID, BigDecimal amount) {
+        this.userID = userID;
+        this.amount = amount;
+    }
 
     public int getTransferID() {
         return transferID;
@@ -51,11 +58,11 @@ public class Transfer {
         this.accountTo = accountTo;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

@@ -3,10 +3,13 @@ package com.techelevator.tenmo.services;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
+import com.techelevator.util.BasicLogger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -16,27 +19,31 @@ public class TransferService {
     private final String baseUrl;
     private final RestTemplate restTemplate = new RestTemplate();
     private final AuthenticatedUser currentUser;
-    private long accountTo;
-    private BigDecimal amount;
 
-    public TransferService(String url, AuthenticatedUser currentUser, Long accountTo, BigDecimal amount) {
+    public TransferService(String url, AuthenticatedUser currentUser) {
         this.baseUrl = url;
         this.currentUser = currentUser;
-        this.accountTo = accountTo;
-        this.amount = amount;
     }
 
-    public void sendBucks(int userID, double transferAmount, BigDecimal currentBalanceAmount) {
-        double curBalAmt = currentBalanceAmount.doubleValue();
-        if (transferAmount > curBalAmt) {
-            return;
+    public boolean sendBucks(int userID, BigDecimal transferAmount, BigDecimal currentBalanceAmount) {
+        boolean wasSuccessful = false;
+        if (transferAmount.compareTo(currentBalanceAmount) < 0 && transferAmount.compareTo(currentBalanceAmount) >= 0) {
+            return wasSuccessful;
         }
-        Transfer transfer = new Transfer();
-        transfer.setTransferTypeID(2);
-        transfer.setTransferStatusID(2);
-        transfer.setAccountTo(userID);
-        transfer.setAccountFrom();
-        transfer.setAmount(transferAmount);
+        Transfer transfer = new Transfer(userID, transferAmount);
+        HttpEntity<Transfer> transferEntity = makeTransferEntity(transfer);
+        try {
+            restTemplate.exchange(baseUrl + "transfer", HttpMethod.PUT, transferEntity, Boolean.class);
+            wasSuccessful = true;
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+//        transfer.setTransferTypeID(2);
+//        transfer.setTransferStatusID(2);
+//        transfer.setAccountTo();
+//        transfer.setAccountFrom();
+//        transfer.setAmount(transferAmount);
+        return wasSuccessful;
     }
 
     public void listAllUsers() {
@@ -67,9 +74,9 @@ public class TransferService {
         return new HttpEntity<>(transfer, headers);
     }
 
-    private int userIDToAccountID(int userID) {
-        HttpHeaders headers = new HttpHeaders();
-    }
+//    private int userIDToAccountID(int userID) {
+//        HttpHeaders headers = new HttpHeaders();
+//    }
 }
 
 /*

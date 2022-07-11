@@ -1,10 +1,14 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Transfer;
+import org.jboss.logging.BasicLogger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientResponseException;
 
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,41 +22,36 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public boolean createTransfer(Transfer transfer) {
+    public boolean createTransfer(Long userIDOfSender, Transfer transfer) {
         String sql = "INSERT INTO transfer (transfer_id, transfer_type_id, transfer_status_id, account_to, account_from, amount) " +
-                "VALUES (?, ?, ?, ?, ?, ?) RETURNING transfer_id;";
-        Long userID;
-        String username;
+                "VALUES (default, 2, 2, (SELECT account_id FROM account WHERE user_id = ?), " +
+                "(SELECT account_id FROM account WHERE user_id = ?), ?) RETURNING transfer_id;";
         try {
-            jdbcTemplate.update(sql, transfer.getTransferID(), transfer.getTransferTypeID(), transfer.getTransferStatusID(), transfer.getAccountTo(), transfer.getAccountFrom(), transfer.getAmount());
+            jdbcTemplate.update(sql, transfer.getAccountTo(), userIDOfSender, transfer.getAmount());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         String sqlSender = "UPDATE account SET balance = balance - ?" +
-                "WHERE account_id = ?;";
+                "WHERE user_id = ?;";
         try {
-            jdbcTemplate.update(sqlSender, transfer.getAmount(), transfer.getAccountFrom());
+            jdbcTemplate.update(sqlSender, transfer.getAmount(), userIDOfSender);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
         String sqlReceiver = "UPDATE account SET balance = balance + ?" +
-                "WHERE account_id = ?;";
+                "WHERE user_id = ?;";
         try {
-            jdbcTemplate.update(sqlReceiver, transfer.getAmount(), transfer.getAccountTo());
+            jdbcTemplate.update(sqlReceiver, transfer.getAmount(), transfer.getUserID());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return true;
-    private JdbcTemplate jdbcTemplate;
-
-    public JdbcTransferDao(JdbcTemplate jdbcTemplate){
-        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public Transfer getTransferDetailsByTransferId(long transfer_id) {
+    public Transfer getTransferDetails (long transfer_id) {
         Transfer transfer = null;
         String sql = "SELECT * from transfer WHERE transfer_id = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, transfer_id);
@@ -63,7 +62,7 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public List<Transfer> viewTransferHistory(long user_id) {
+    public List<Transfer> getTransferHistory (long user_id) {
         List<Transfer> transfers = new ArrayList<>();
         String sql = "SELECT * FROM transfer WHERE user_id = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, user_id);
@@ -73,22 +72,7 @@ public class JdbcTransferDao implements TransferDao {
         return transfers;
     }
 
-    // Add a transaction to the database
-
-
-    @Override
-    public Transfer getTransferDetails(long transferID) {
-    List<Transfer> transfers = new ArrayList<>();
-        return null;
-    }
-
-    @Override
-    public List<Transfer> getTransferHistory() {
-        String sql = "SELECT ";
-        return null;
-    }
-
-    private Transfer mapRowToTransfer(SqlRowSet rs) {
+    private Transfer mapRowToTransfer (SqlRowSet rs){
         Transfer transfer = new Transfer();
         transfer.setTransferID(rs.getLong("transfer_id"));
         transfer.setTransferTypeID(rs.getLong("transfer_type_id"));
@@ -98,6 +82,7 @@ public class JdbcTransferDao implements TransferDao {
         transfer.setAmount(rs.getDouble("amount"));
         transfer.setUserID(rs.getLong("user_id"));
         transfer.setUsername(rs.getString("username"));
+        transfer.setAccountID(rs.getLong("account_id"));
         return transfer;
     }
 }
