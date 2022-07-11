@@ -8,19 +8,22 @@ public class Transfer {
     private Long transferStatusID;
     private Long accountFrom;
     private Long accountTo;
-    private BigDecimal amount;
+    private Double amount;
+    private Long userID;
+    private String username;
 
     public Transfer() {
-
     }
 
-    public Transfer(Long transferID, Long transferTypeID, Long transferStatusID, Long accountFrom, Long accountTo, BigDecimal amount) {
+    public Transfer(Long transferID, Long transferTypeID, Long transferStatusID, Long accountFrom, Long accountTo, Double amount, Long userID, String username) {
         this.transferID = transferID;
         this.transferTypeID = transferTypeID;
         this.transferStatusID = transferStatusID;
         this.accountFrom = accountFrom;
         this.accountTo = accountTo;
         this.amount = amount;
+        this.userID = userID;
+        this.username = username;
     }
 
     public Long getTransferID() {
@@ -31,9 +34,7 @@ public class Transfer {
         this.transferID = transferID;
     }
 
-    public Long getTransferTypeID() {
-        return transferTypeID;
-    }
+    public Long getTransferTypeID() { return transferTypeID; }
 
     public void setTransferTypeID(Long transferTypeID) {
         this.transferTypeID = transferTypeID;
@@ -63,13 +64,21 @@ public class Transfer {
         this.accountTo = accountTo;
     }
 
-    public BigDecimal getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
+
+    public Long getUserID() { return userID; }
+
+    public void setUserID(Long userID) { this.userID = userID; }
+
+    public String getUsername() { return username; }
+
+    public void setUsername(String username) { this.username = username; }
 
     @Override
     public String toString() {

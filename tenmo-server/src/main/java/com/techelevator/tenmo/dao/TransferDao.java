@@ -7,23 +7,11 @@ import java.util.List;
 
 public interface TransferDao {
 
-    // Send (post) money(a specific amount)
-    // Receive money - This doesn't need to be accounted for as an actual method, correct?
-    // Update (put) the recipient's balance (increase by the amount received) - Do this in the controller
-    // Update (put) the sender's balance (decrease by the amount sent) - Do this in the controller
-    // View (get) my own transfer history
-    // View (get) the details of a transfer based on a transfer id
+    boolean createTransfer(Transfer transfer);
 
-    Transfer getTransferDetailsByTransferId(long transferID);
+    Transfer getTransferDetails(long transferID);
 
-    List<Transfer> viewAllTransfersById(long userID); // This is a user's transfer history - what parameters should be passed in here?
+    List<Transfer> getTransferHistory();
 
-    Transfer updateSender(long userID, long transferTypeID, BigDecimal amount); // Can I include userID here since it's from a different table?
-
-    Transfer updateRecipient(long userID, long transferTypeId, BigDecimal amount); // Can I include userID here since it's from a different table?
-
-    //Transfer create(long transferID, )
-
-    // Transfer update()
 }
 

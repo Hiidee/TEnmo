@@ -2,10 +2,8 @@ package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.model.Transfer;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -15,11 +13,18 @@ public class TransferController {
 
     private TransferDao transferDao;
 
-//    @RequestMapping(value = "/transfers", method = RequestMethod.GET)
-//    public List<Transfer> getTransferHistory() {return transferDao.getTransferHistory();}
-//
-//    @RequestMapping(value = "/transfers/{transferid}", method = RequestMethod.GET)
-//    public Transfer getTransferDetails(@Valid @PathVariable Long transferid) {
-//        return transferDao.getTransferDetails(transferid);
-//    }
+    @RequestMapping(value = "/transfer", method = RequestMethod.GET)
+    public List<Transfer> getTransferHistory() {return transferDao.getTransferHistory();}
+
+    @RequestMapping(value = "/transfer/{transferid}", method = RequestMethod.GET)
+    public Transfer getTransferDetails(@Valid @PathVariable Long transferid) {
+        return transferDao.getTransferDetails(transferid);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/transfer", method = RequestMethod.POST)
+    public Transfer createTransfer(@Valid @RequestBody Transfer transfer) {
+        transferDao.createTransfer(transfer);
+        return transfer;
+    }
 }
