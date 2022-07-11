@@ -45,14 +45,9 @@ public class JdbcTransferDao implements TransferDao {
             System.out.println(e.getMessage());
         }
         return true;
-    private JdbcTemplate jdbcTemplate;
-
-    public JdbcTransferDao(JdbcTemplate jdbcTemplate){
-        this.jdbcTemplate = jdbcTemplate;
     }
-
     @Override
-    public Transfer getTransferDetailsByTransferId(long transfer_id) {
+    public Transfer getTransferDetails ( long transfer_id){
         Transfer transfer = null;
         String sql = "SELECT * from transfer WHERE transfer_id = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, transfer_id);
@@ -63,7 +58,7 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public List<Transfer> viewTransferHistory(long user_id) {
+    public List<Transfer> viewTransferHistory ( long user_id){
         List<Transfer> transfers = new ArrayList<>();
         String sql = "SELECT * FROM transfer WHERE user_id = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, user_id);
@@ -73,22 +68,7 @@ public class JdbcTransferDao implements TransferDao {
         return transfers;
     }
 
-    // Add a transaction to the database
-
-
-    @Override
-    public Transfer getTransferDetails(long transferID) {
-    List<Transfer> transfers = new ArrayList<>();
-        return null;
-    }
-
-    @Override
-    public List<Transfer> getTransferHistory() {
-        String sql = "SELECT ";
-        return null;
-    }
-
-    private Transfer mapRowToTransfer(SqlRowSet rs) {
+    private Transfer mapRowToTransfer (SqlRowSet rs){
         Transfer transfer = new Transfer();
         transfer.setTransferID(rs.getLong("transfer_id"));
         transfer.setTransferTypeID(rs.getLong("transfer_type_id"));
