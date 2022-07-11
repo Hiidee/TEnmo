@@ -13,12 +13,15 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TransferService {
 
     private final String baseUrl;
     private final RestTemplate restTemplate = new RestTemplate();
     private final AuthenticatedUser currentUser;
+    private Transfer transfer;
 
     public TransferService(String url, AuthenticatedUser currentUser) {
         this.baseUrl = url;
@@ -62,6 +65,30 @@ public class TransferService {
         }
     }
 
+    public List<Transfer> viewTransferHistory(AuthenticatedUser currentUser){
+        //List<Transfer> transferHistory = new ArrayList<>();
+       // Transfer transferHistory = new Transfer();
+        List<Transfer> transferHistory = new ArrayList<>();
+        try {
+            transfer = restTemplate.exchange(baseUrl + "/transfer", HttpMethod.GET, makeTransferEntity(transfer), Transfer.class).getBody();
+            System.out.println("Your transfer history: " + transferHistory);
+        } catch (RestClientResponseException e) {
+            System.out.println(e.getRawStatusCode() + e.getStatusText());
+        }
+        return transferHistory;
+    }
+
+    public Transfer getTransferDetails (Long transferID) {
+        Transfer transferDetails = new Transfer();
+        try {
+            transferDetails = restTemplate.exchange(baseUrl + "/transfer{id}", HttpMethod.GET, makeTransferEntity(transfer), Transfer.class).getBody();
+            System.out.println("Your transfer details: " + transferDetails);
+        } catch (RestClientResponseException e) {
+            System.out.println(e.getRawStatusCode() + e.getStatusText());
+        }
+        return transferDetails;
+    }
+
     private HttpEntity makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(currentUser.getToken());
@@ -79,8 +106,9 @@ public class TransferService {
     /*
     private int userIDToAccountID(int userID) {
         HttpHeaders headers = new HttpHeaders();
+        return 0;
     }
-     */
+    */
 }
 
 /*

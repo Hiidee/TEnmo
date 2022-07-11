@@ -45,7 +45,6 @@ public class JdbcTransferDao implements TransferDao {
         }
         return true;
     }
-
     @Override
     public Transfer getTransferDetails (long transfer_id) {
         Transfer transfer = null;
@@ -58,7 +57,7 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public List<Transfer> getTransferHistory (long user_id) {
+    public List<Transfer> viewTransferHistory ( long user_id){
         List<Transfer> transfers = new ArrayList<>();
         String sql = "SELECT * FROM transfer WHERE user_id = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, user_id);
