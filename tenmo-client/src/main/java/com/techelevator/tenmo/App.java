@@ -95,7 +95,6 @@ public class App {
        } catch (NullPointerException e) {
             System.out.println("No balance was found.");
         }
-        System.out.println("Your current balance is: ");
     }
 
 	private void viewTransferHistory() {

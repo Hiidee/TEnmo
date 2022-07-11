@@ -4,11 +4,12 @@ import com.techelevator.tenmo.model.Account;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class JdbcAccountDao implements AccountDao {
     private JdbcTemplate jdbcTemplate;
 
@@ -40,11 +41,10 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public BigDecimal getBalance(long id) { // Should we pass in the user id or account id?
-        String sql = "SELECT balance FROM account WHERE user_id = ?;";
+    public BigDecimal getBalance(long id) {
+        String sql = "SELECT * FROM account WHERE user_id = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
         if (result.next()) {
-            //accountBalance = result.getBigDecimal("balance");
             return mapRowToAccount(result).getBalance();
         }
         return null;
@@ -61,6 +61,7 @@ public class JdbcAccountDao implements AccountDao {
         } catch (DataAccessException e) {
             System.out.println("There was an error accessing your data.");
         }
+        //return newBalance;
         return account.getBalance();
     }
 
@@ -75,14 +76,15 @@ public class JdbcAccountDao implements AccountDao {
         } catch (DataAccessException e) {
             System.out.println("There was an error accessing your data.");
         }
+        //return newBalance;
         return account.getBalance();
     }
 
-    private Account mapRowToAccount(SqlRowSet rs) {
+    private Account mapRowToAccount(SqlRowSet rowSet) {
         Account account = new Account();
-        account.setAccountID(rs.getLong("account_id"));
-        account.setUserID(rs.getLong("user_id"));
-        account.setBalance(rs.getBigDecimal("balance"));
+        account.setAccountID(rowSet.getLong("account_id"));
+        account.setUserID(rowSet.getLong("user_id"));
+        account.setBalance(rowSet.getBigDecimal("balance"));
         return account;
     }
 }

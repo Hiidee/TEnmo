@@ -5,6 +5,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -23,11 +24,10 @@ public class AccountService {
     public BigDecimal getBalance(AuthenticatedUser currentUser) {
         BigDecimal balance = new BigDecimal(0);
         try {
-            // The URL path below might not be right
-            balance = restTemplate.exchange(baseUrl + "account/balance/" + currentUser.getUser().getId(), HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
+            balance = restTemplate.exchange(baseUrl + "account/balance", HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
             System.out.println("Your current account balance is: $" + balance);
-        } catch (RestClientException e) {
-            System.out.println("There was an error getting the balance.");
+        } catch (RestClientResponseException e) {
+            System.out.println(e.getRawStatusCode() + e.getStatusText());
         }
         return balance;
     }
@@ -36,7 +36,7 @@ public class AccountService {
     public BigDecimal addToBalance(AuthenticatedUser currentUser) {
         BigDecimal balance = new BigDecimal(0);
         try {
-            balance = restTemplate.exchange(baseUrl + "balance/" + currentUser.getUser().getId(), HttpMethod.PUT, makeAuthEntity(), BigDecimal.class).getBody();
+            balance = restTemplate.exchange(baseUrl + "account/balance", HttpMethod.PUT, makeAuthEntity(), BigDecimal.class).getBody();
             System.out.println("Your current account balance is: $" + balance);
         } catch (RestClientException e) {
             System.out.println("There was an error getting the balance.");
@@ -47,13 +47,14 @@ public class AccountService {
     public BigDecimal subtractFromBalance(AuthenticatedUser currentUser) {
         BigDecimal balance = new BigDecimal(0);
         try {
-            balance = restTemplate.exchange(baseUrl + "balance/" + currentUser.getUser().getId(), HttpMethod.PUT, makeAuthEntity(), BigDecimal.class).getBody();
+            balance = restTemplate.exchange(baseUrl + "account/balance", HttpMethod.PUT, makeAuthEntity(), BigDecimal.class).getBody();
             System.out.println("Your current account balance is: $" + balance);
         } catch (RestClientException e) {
             System.out.println("There was an error getting the balance.");
         }
         return balance;
     }
+    // Should the path include "+currentUser.getUser().getId() after account/balance?
 
     private HttpEntity makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
