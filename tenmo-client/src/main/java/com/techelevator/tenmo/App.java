@@ -1,11 +1,13 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.TransferService;
+import org.bouncycastle.asn1.cmp.RevDetails;
 
 import java.math.BigDecimal;
 
@@ -105,9 +107,12 @@ public class App {
         System.out.println("Transfers");
         System.out.println("ID         From/To        Amount");
         System.out.println("--------------------------------");
-
+        transferService.viewTransferHistory(currentUser);
         System.out.println("--------------------------------");
-        consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ");
+        long transferID = consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ");
+        Transfer transferDetails = new Transfer();
+        transferService.getTransferDetails(transferID);
+        System.out.println(transferDetails);
     }
 
 	private void viewPendingRequests() {
