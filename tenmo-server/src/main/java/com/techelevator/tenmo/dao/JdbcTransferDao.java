@@ -23,7 +23,7 @@ public class JdbcTransferDao implements TransferDao {
                 "VALUES (default, 2, 2, (SELECT account_id FROM account WHERE user_id = ?), " +
                 "(SELECT account_id FROM account WHERE user_id = ?), ?) RETURNING transfer_id;";
         try {
-            jdbcTemplate.update(sql, transfer.getAccountTo(), currentUser, transfer.getAmount());
+            jdbcTemplate.update(sql, transfer.getUserID(), currentUser, transfer.getAmount());
         } catch (Exception e) {
             e.printStackTrace();
         }
