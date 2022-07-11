@@ -2,10 +2,8 @@ package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.model.Transfer;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -15,20 +13,18 @@ public class TransferController {
 
     private TransferDao transferDao;
 
-    public TransferController(TransferDao transferDao) {
-        this.transferDao = transferDao;
+    @RequestMapping(value = "/transfer", method = RequestMethod.GET)
+    public List<Transfer> getTransferHistory() {return transferDao.getTransferHistory();}
+
+    @RequestMapping(value = "/transfer/{transferid}", method = RequestMethod.GET)
+    public Transfer getTransferDetails(@Valid @PathVariable Long transferid) {
+        return transferDao.getTransferDetails(transferid);
     }
 
-    // Business logic - only allow a transfer if:
-    // The sender has enough money in their account to make the transfer (currentBalance >= amountToSend)
-    // The sender is trying to send a positive amount of money (amountToSend > 0)
-
-
-    //@RequestMapping(value = "/transfers", method = RequestMethod.GET)
-//    public List<Transfer> viewTransferHistory() {return transferDao.getTransferHistory();}
-//
-//    @RequestMapping(value = "/transfers/{transferid}", method = RequestMethod.GET)
-//    public Transfer getTransferDetailsByTransferId(@Valid @PathVariable Long transferid) {
-//        return transferDao.getTransferDetails(transferid);
-//    }
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/transfer", method = RequestMethod.POST)
+    public Transfer createTransfer(@Valid @RequestBody Transfer transfer) {
+        transferDao.createTransfer(transfer);
+        return transfer;
+    }
 }

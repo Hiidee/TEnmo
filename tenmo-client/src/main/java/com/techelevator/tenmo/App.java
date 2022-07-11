@@ -5,6 +5,7 @@ import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
+import com.techelevator.tenmo.services.TransferService;
 
 import java.math.BigDecimal;
 
@@ -17,6 +18,7 @@ public class App {
 
     private AuthenticatedUser currentUser;
     private AccountService accountService;
+    private TransferService transferService;
 
     public static void main(String[] args) {
         App app = new App();
@@ -59,6 +61,8 @@ public class App {
     private void handleLogin() {
         UserCredentials credentials = consoleService.promptForCredentials();
         currentUser = authenticationService.login(credentials);
+        accountService = new AccountService(API_BASE_URL, currentUser);
+        transferService = new TransferService(API_BASE_URL, currentUser);
         if (currentUser == null) {
             consoleService.printErrorMessage();
         }
@@ -89,7 +93,6 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
-        AccountService accountService = new AccountService(API_BASE_URL, currentUser);
         try {
             accountService.getBalance(currentUser);
        } catch (NullPointerException e) {
@@ -113,7 +116,12 @@ public class App {
 	}
 
 	private void sendBucks() {
-		// TODO Auto-generated method stub
+        transferService.listAllUsers();
+        int userID = consoleService.promptForInt("Enter the id of the user to send to: ");
+        String strAmount = consoleService.promptForString("Enter the amount to send: ");
+        double transferAmount = Double.parseDouble(strAmount);
+        BigDecimal currentBalanceAmount = accountService.getBalance(currentUser);
+        transferService.sendBucks(userID, transferAmount, currentBalanceAmount);
 	}
 
 	private void requestBucks() {

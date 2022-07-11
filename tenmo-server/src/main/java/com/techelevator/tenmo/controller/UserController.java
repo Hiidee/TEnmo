@@ -15,17 +15,13 @@ public class UserController {
 
     private UserDao userDao;
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public List<User> findAll() {return userDao.findAll();}
-
     @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
     public User findByUsername(@Valid @PathVariable String username) {
         return userDao.findByUsername(username);
     }
 
     @RequestMapping(value = "/user/{idbyusername}", method = RequestMethod.GET)
-    public int findIdByUsername(@Valid @PathVariable String idbyusername) {
-        return 0;
-        //return userDao.findIdByUsername(idbyusername);
+    public Long findIdByUsername(@Valid @PathVariable String idbyusername) {
+        return userDao.findIdByUsername(idbyusername);
     }
 }

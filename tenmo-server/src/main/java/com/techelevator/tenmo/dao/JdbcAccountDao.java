@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
 @Component
 public class JdbcAccountDao implements AccountDao {
     private JdbcTemplate jdbcTemplate;
@@ -50,41 +51,11 @@ public class JdbcAccountDao implements AccountDao {
         return null;
     }
 
-    @Override
-    public BigDecimal addToBalance(BigDecimal amountToAdd, long id) {
-        Account account = findByUserID(id);
-        BigDecimal newBalance = account.getBalance().add(amountToAdd);
-        System.out.println(newBalance);
-        String sql = "UPDATE account SET balance = ? WHERE user_id = ?;";
-        try {
-            jdbcTemplate.update(sql, newBalance, id);
-        } catch (DataAccessException e) {
-            System.out.println("There was an error accessing your data.");
-        }
-        //return newBalance;
-        return account.getBalance();
-    }
-
-    @Override
-    public BigDecimal subtractFromBalance(BigDecimal amountToSubtract, long id) {
-        Account account = findByUserID(id);
-        BigDecimal newBalance = account.getBalance().subtract(amountToSubtract);
-        System.out.println(newBalance);
-        String sql = "UPDATE account SET balance = ? WHERE user_id = ?;";
-        try {
-            jdbcTemplate.update(sql, newBalance, id);
-        } catch (DataAccessException e) {
-            System.out.println("There was an error accessing your data.");
-        }
-        //return newBalance;
-        return account.getBalance();
-    }
-
-    private Account mapRowToAccount(SqlRowSet rowSet) {
+    private Account mapRowToAccount(SqlRowSet rs) {
         Account account = new Account();
-        account.setAccountID(rowSet.getLong("account_id"));
-        account.setUserID(rowSet.getLong("user_id"));
-        account.setBalance(rowSet.getBigDecimal("balance"));
+        account.setAccountID(rs.getLong("account_id"));
+        account.setUserID(rs.getLong("user_id"));
+        account.setBalance(rs.getBigDecimal("balance"));
         return account;
     }
 }

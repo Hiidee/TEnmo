@@ -31,29 +31,6 @@ public class AccountService {
         }
         return balance;
     }
-
-    // Should addToBalance and subtractFromBalance go here?
-    public BigDecimal addToBalance(AuthenticatedUser currentUser) {
-        BigDecimal balance = new BigDecimal(0);
-        try {
-            balance = restTemplate.exchange(baseUrl + "account/balance", HttpMethod.PUT, makeAuthEntity(), BigDecimal.class).getBody();
-            System.out.println("Your current account balance is: $" + balance);
-        } catch (RestClientException e) {
-            System.out.println("There was an error getting the balance.");
-        }
-        return balance;
-    }
-
-    public BigDecimal subtractFromBalance(AuthenticatedUser currentUser) {
-        BigDecimal balance = new BigDecimal(0);
-        try {
-            balance = restTemplate.exchange(baseUrl + "account/balance", HttpMethod.PUT, makeAuthEntity(), BigDecimal.class).getBody();
-            System.out.println("Your current account balance is: $" + balance);
-        } catch (RestClientException e) {
-            System.out.println("There was an error getting the balance.");
-        }
-        return balance;
-    }
     // Should the path include "+currentUser.getUser().getId() after account/balance?
 
     private HttpEntity makeAuthEntity() {

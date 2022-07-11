@@ -9,7 +9,7 @@ public class Transfer {
     private int transferStatusID;
     private int accountFrom;
     private int accountTo;
-    private BigDecimal amount;
+    private double amount;
 
     public int getTransferID() {
         return transferID;
@@ -51,11 +51,11 @@ public class Transfer {
         this.accountTo = accountTo;
     }
 
-    public BigDecimal getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

@@ -3,11 +3,9 @@ package com.techelevator.tenmo.controller;
 import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.User;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -31,7 +29,7 @@ public class AccountController {
         return accountDao.getAllAccounts();
     }
 
-    @RequestMapping(value = "/account/{userid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/account", method = RequestMethod.GET) //use this to get the account_id of a given user based on the send recipient and current user id's
     public Account getAccountByUserID(@Valid @PathVariable int userid) {
         return accountDao.findByUserID(userid);
     }
@@ -46,6 +44,11 @@ public class AccountController {
     @RequestMapping(value = "/account/{userid}", method = RequestMethod.PUT)
     public Account sendBucks(@Valid @PathVariable Long userid) {
         return null;
+    }
+
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public List<User> getAllUsers() {
+        return userDao.findAll();
     }
 
 }
